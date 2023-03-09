@@ -1,5 +1,6 @@
 package com.example.hackeru.retrofit
 
+import com.example.hackeru.models.ApiArtistAlbumsResponse
 import com.example.hackeru.models.SearchResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -19,4 +20,18 @@ interface SearchService {
         @Query("offset") offset: String = "0",
         @Query("numberOfTopResults") topResults: Int = 5,
     ): SearchResponse
+
+
+
+    @Headers(
+        "X-RapidAPI-Key: 99a7fc0608mshb59fdd65c82e2e9p187226jsn7e143d48635c",
+        "X-RapidAPI-Host: spotify23.p.rapidapi.com"
+    )
+    @GET("artist_albums/")
+    suspend fun artistAlbums(
+        @Query("id") id: String,
+        @Query("limit") limit: String = "100",
+        @Query("offset") offset: String = "0",
+    ): ApiArtistAlbumsResponse
+
 }

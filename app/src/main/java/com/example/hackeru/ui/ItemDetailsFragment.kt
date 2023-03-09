@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.hackeru.adapters.ArtistAlbumsAdapter
 import com.example.hackeru.databinding.FragmentItemDetailsBinding
 import com.example.hackeru.models.*
 import com.example.hackeru.viewmodel.SearchViewModel
@@ -34,10 +36,21 @@ class ItemDetailsFragment : Fragment() {
         searchViewModel.selectedItem.observe(viewLifecycleOwner) {
             handleItemUI(it)
         }
+        binding.detailsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        searchViewModel.searchArtistAlbumsLiveData.observe(viewLifecycleOwner) {
+            println(it.data.artist.discography.albums.items)
+            val adapter =
+                ArtistAlbumsAdapter(it.data.artist.discography.albums
+                    .items.map { album -> album.releases.items[0] })
+            binding.detailsRecyclerView.adapter = adapter
+        }
     }
 
+    private fun showArtistAlbums(artist: ArtistData) {
+        searchViewModel.searchArtistAlbums(artist)
+    }
 
-    fun handleItemUI(item: Data<Any>) {
+    private fun handleItemUI(item: Data<Any>) {
 
         when (item.data) {
             is ArtistData -> {
@@ -48,6 +61,7 @@ class ItemDetailsFragment : Fragment() {
                         .into(binding.detailsImage)
                 }
                 binding.detailsDesc.text = "artist"
+                showArtistAlbums(item.data)
             }
             is AlbumData -> {
                 binding.detailsName.text = item.data.name

@@ -1,6 +1,9 @@
 package com.example.hackeru.models
 
 
+/*
+ Search models --------------------------------------------
+ */
 class SharingInfo(
     val shareUrl: String,
 )
@@ -62,9 +65,9 @@ class TrackData(
 )
 
 class GenreData(
-   val uri:String,
-   val name:String,
-   val image:CoverArt
+    val uri: String,
+    val name: String,
+    val image: CoverArt,
 )
 
 class ArtistsOfAlbum(
@@ -80,7 +83,8 @@ class Owner(
     val name: String,
 )
 
-class ResponseDate(val year:Long)
+class ResponseDate(val year: Long)
+
 
 class AlbumData(
     val uri: String,
@@ -119,7 +123,6 @@ class PodcastData(
     val mediaType: String,
 )
 
-class Data<T>(val data: T)
 
 open class ApiResults<T>(val items: List<Data<T>>, val totalCount: Long) {
     override fun toString(): String {
@@ -158,4 +161,45 @@ class ArtistResults(
     totalCount: Long,
 ) : ApiResults<ArtistData>(items, totalCount)
 
+open class Data<T>(val data: T)
 
+// --------------------------------------------
+
+class ApiDate(
+    val year: Long,
+    val isoString: String,
+)
+class AlbumTrackCount(
+    val totalCount: Long,
+)
+class ApiArtistAlbumsResponseHolder(
+    val artist: ArtistAlbumsDiscography,
+)
+class ApiArtistAlbumsResponse(
+    data: ApiArtistAlbumsResponseHolder,
+) : Data<ApiArtistAlbumsResponseHolder>(data)
+class Album(
+    val id: String,
+    val name: String,
+    val coverArt: CoverArt,
+    val date: ApiDate,
+    val type: String,
+    val tracks: AlbumTrackCount,
+)
+class ArtistAlbum(
+    val items: List<Album>,
+)
+class ArtistAlbumReleases(
+    val releases: ArtistAlbum,
+)
+class Albums(
+    val items: List<ArtistAlbumReleases>,
+    val totalCount: Long,
+)
+class ArtistAlbumsDiscography(
+    val discography: Artist
+)
+
+class Artist(
+    val albums: Albums,
+)

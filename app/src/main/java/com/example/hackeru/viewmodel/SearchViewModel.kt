@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hackeru.models.ApiArtistAlbumsResponse
+import com.example.hackeru.models.ArtistData
 import com.example.hackeru.models.Data
 import com.example.hackeru.models.SearchResponse
 import com.example.hackeru.repository.SearchRepository
@@ -16,6 +18,8 @@ class SearchViewModel : ViewModel() {
 
     private val repository: SearchRepository = SearchRepository(RetrofitClient.getArtistsService())
     val searchLiveData = MutableLiveData<SearchResponse>()
+
+    val searchArtistAlbumsLiveData = MutableLiveData<ApiArtistAlbumsResponse>()
 
     private val _selectedItem = MutableLiveData<Data<Any>>()
     val selectedItem: LiveData<Data<Any>> = _selectedItem
@@ -30,6 +34,20 @@ class SearchViewModel : ViewModel() {
                 try {
                     val response = repository.search(name, category)
                     searchLiveData.postValue(response)
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                    println(e.message)
+                }
+            }
+        }
+    }
+
+    fun searchArtistAlbums(artist: ArtistData) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try {
+                    val response = repository.searchArtistAlbums(artist)
+                    searchArtistAlbumsLiveData.postValue(response)
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
                     println(e.message)
