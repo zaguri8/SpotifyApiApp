@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark"
+    android:orientation="vertical">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchThemeRv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center"
+        android:foregroundGravity="center"
+        android:paddingTop="8dp"
+        tools:listitem="@layout/search_item" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:foregroundTint="@color/white"
+        android:textColorHint="@color/overlay"
+        android:tooltipText="Search"
+        app:boxStrokeColor="@color/background"
+        app:helperTextTextColor="@color/overlay"
+        app:hintTextColor="@color/overlay"
+        app:placeholderTextColor="@color/overlay">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter something to search"
+            android:textColor="@color/overlay"
+            android:textColorHint="@color/overlay"
+            android:textSize="14sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="64dp"
+        android:background="@drawable/rounded_fill"
+        android:text="Search"
+        android:textColor="@color/white" />
+
+
+</LinearLayout>

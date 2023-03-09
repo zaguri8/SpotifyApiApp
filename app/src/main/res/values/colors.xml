@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#353B3C</color>
+    <color name="background_dark">#151717</color>
+    <color name="overlay">#EEF0F2</color>
+    <color name="brown">#846A6A</color>
+    <color name="silver">#C6C7C4</color>
+    <color name="quartz">#A2999E</color>
+    <color name="color_primary">#EA526F</color>
+    <color name="color_secondary">#AB4967</color>
+    <color name="overlay_2">#D9D0DE</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

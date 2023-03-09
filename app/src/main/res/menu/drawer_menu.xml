@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/search_fragment"
+        android:icon="@drawable/search"
+        android:title="Search" />
+    <item
+        android:id="@+id/favorites_fragment"
+        android:icon="@drawable/like"
+        android:title="@string/favorites" />
+
+    <item android:title="@string/settings">
+        <menu>
+            <item android:title="@string/logout" android:icon="@drawable/logout" />
+        </menu>
+    </item>
+</menu>

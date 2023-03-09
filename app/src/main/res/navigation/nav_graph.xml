@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/search_fragment">
+
+
+    <fragment
+        android:id="@+id/search_fragment"
+        android:name="com.example.hackeru.ui.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_search_fragment_to_search_results_fragment"
+            app:destination="@id/search_results_fragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/favorites_fragment"
+        android:name="com.example.hackeru.ui.FavoritesFragment"
+        android:label="Favorites"
+        tools:layout="@layout/fragment_favorites" />
+
+
+    <fragment
+        android:id="@+id/search_results_fragment"
+        android:name="com.example.hackeru.ui.SearchResultsFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search_results">
+        <action
+            android:id="@+id/action_search_results_fragment_to_item_details_fragment"
+            app:destination="@id/item_details_fragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/item_details_fragment"
+        android:name="com.example.hackeru.ui.ItemDetailsFragment"
+        android:label="Details"
+        tools:layout="@layout/fragment_item_details">
+        <action
+            android:id="@+id/action_item_details_fragment_to_favorites_fragment"
+            app:destination="@id/favorites_fragment" />
+    </fragment>
+
+
+</navigation>
