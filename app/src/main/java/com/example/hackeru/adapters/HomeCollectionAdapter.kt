@@ -3,103 +3,101 @@ package com.example.hackeru.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hackeru.databinding.SearchResultItemBinding
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.hackeru.databinding.HorizontalItemBinding
 import com.example.hackeru.models.*
 import com.squareup.picasso.Picasso
 
-open class SearchResultsAdapter(
-    val response: List<Data<Any>>,
-    val itemClickCallback: (Data<Any>) -> Unit,
-) : RecyclerView.Adapter<SearchResultsAdapter.SearchResultsViewHolder>() {
+class HomeCollectionAdapter(
+    private val response: List<Data<Any>>,
+    private val itemClickCallback: (Data<Any>) -> Unit,
+) : RecyclerView.Adapter<HomeCollectionAdapter.HomeCollectionViewHolder>() {
 
 
-    open class SearchResultsViewHolder(
-        val binding: SearchResultItemBinding,
-    ) : RecyclerView.ViewHolder(binding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultsViewHolder {
-        val binding = SearchResultItemBinding.inflate(LayoutInflater.from(parent.context))
-        return SearchResultsViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeCollectionViewHolder {
+        val binding = HorizontalItemBinding.inflate(LayoutInflater.from(parent.context))
+        return HomeCollectionViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-
-        return response.size
-    }
-
-    override fun onBindViewHolder(holder: SearchResultsViewHolder, position: Int) {
-
+    override fun onBindViewHolder(holder: HomeCollectionViewHolder, position: Int) {
         val item = response[position]
 
 
-        val nameTextView = holder.binding.searchItemNameTv
-        val descTextView = holder.binding.searchItemDescTv
-        val itemImageView = holder.binding.searchItemIv
-        val ratingBar = holder.binding.searchItemRatingBar
+        val itemNameFull = holder.binding.horizontalItemNameFull
+        val itemGenre = holder.binding.horizontalItemGenre
+        val itemImage = holder.binding.horizontalItemImage
 
         holder.itemView.setOnClickListener {
             itemClickCallback.invoke(item)
         }
         when (item.data) {
             is ArtistData -> {
-                nameTextView.text = item.data.profile.name
+                itemNameFull.text = item.data.profile.name
                 if (item.data.visuals.avatarImage.sources.isNotEmpty()) {
                     Picasso.get()
                         .load(item.data.visuals.avatarImage.sources[0].url)
-                        .into(itemImageView)
+                        .into(itemImage)
                 }
-                descTextView.text = "artist"
+                itemGenre.text = "artist"
             }
             is AlbumData -> {
-                nameTextView.text = item.data.name
+                itemNameFull.text = item.data.name
                 if (item.data.coverArt.sources.isNotEmpty()) {
                     Picasso.get()
                         .load(item.data.coverArt.sources[0].url)
-                        .into(itemImageView)
+                        .into(itemImage)
                 }
-                descTextView.text = "album"
+                itemGenre.text = "album"
             }
             is PlaylistData -> {
-                nameTextView.text = item.data.name
+                itemNameFull.text = item.data.name
                 if (item.data.images.items.isNotEmpty()) {
                     if (item.data.images.items[0].sources.isNotEmpty()) {
                         Picasso.get()
                             .load(item.data.images.items[0].sources[0].url)
-                            .into(itemImageView)
+                            .into(itemImage)
                     }
                 }
-                descTextView.text = "playlist"
+                itemGenre.text = "playlist"
             }
             is PodcastData -> {
-                nameTextView.text = item.data.name
+                itemNameFull.text = item.data.name
                 if (item.data.coverArt.sources.isNotEmpty()) {
                     Picasso.get()
                         .load(item.data.coverArt.sources[0].url)
-                        .into(itemImageView)
+                        .into(itemImage)
                 }
-                descTextView.text = "podcast"
+                itemGenre.text = "podcast"
             }
             is TrackData -> {
-                nameTextView.text = item.data.name
+                itemNameFull.text = item.data.name
                 if (item.data.albumOfTrack.coverArt.sources.isNotEmpty()) {
                     Picasso.get()
                         .load(item.data.albumOfTrack.coverArt.sources[0].url)
-                        .into(itemImageView)
+                        .into(itemImage)
                 }
-                descTextView.text = "track"
+                itemGenre.text = "track"
             }
             is GenreData -> {
-                nameTextView.text = item.data.name
+                itemNameFull.text = item.data.name
                 if (item.data.image.sources.isNotEmpty()) {
                     Picasso.get()
                         .load(item.data.image.sources[0].url)
-                        .into(itemImageView)
+                        .into(itemImage)
                 }
-                descTextView.text = "genre"
+                itemGenre.text = "genre"
             }
         }
-
     }
+
+    override fun getItemCount(): Int {
+        return response.size
+    }
+
+
+    class HomeCollectionViewHolder(
+        val binding: HorizontalItemBinding,
+    ) : ViewHolder(binding.root)
 
 
 }
