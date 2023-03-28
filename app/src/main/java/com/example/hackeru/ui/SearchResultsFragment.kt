@@ -35,15 +35,11 @@ class SearchResultsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.searchResultsRv.layoutManager = LinearLayoutManager(requireContext())
 
-        searchViewModel.selectedItem.observe(viewLifecycleOwner) { selectedItem ->
-
-            findNavController()
-                .navigate(R.id.action_search_results_fragment_to_item_details_fragment)
-        }
-
         searchViewModel.searchLiveData.observe(viewLifecycleOwner) { searchResults ->
             val adapter = SearchResultsAdapter(searchResults.toDataList()) {
                 searchViewModel.selectItem(it)
+                findNavController()
+                    .navigate(R.id.action_search_results_fragment_to_item_details_fragment)
             }
             binding.searchResultsRv.adapter = adapter
         }

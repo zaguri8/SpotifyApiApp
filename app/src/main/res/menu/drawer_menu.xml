@@ -10,10 +10,7 @@
         android:id="@+id/search_fragment"
         android:icon="@drawable/search"
         android:title="Search" />
-    <item
-        android:id="@+id/favorites_fragment"
-        android:icon="@drawable/thumbs"
-        android:title="@string/favorites" />
+
 
     <item android:title="@string/settings">
         <menu>

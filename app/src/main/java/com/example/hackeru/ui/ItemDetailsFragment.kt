@@ -1,5 +1,8 @@
 package com.example.hackeru.ui
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +10,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.hackeru.SpotifyDialog
 import com.example.hackeru.adapters.ArtistAlbumsAdapter
 import com.example.hackeru.databinding.FragmentItemDetailsBinding
 import com.example.hackeru.models.*
 import com.example.hackeru.viewmodel.SearchViewModel
 import com.squareup.picasso.Picasso
+
 
 class ItemDetailsFragment : Fragment() {
 
@@ -30,20 +35,69 @@ class ItemDetailsFragment : Fragment() {
         return binding.root
     }
 
+    private fun openSpotify(spotifyUri: String) {
+        val pm: PackageManager = requireContext().packageManager
+        try {
+            val info = pm.getPackageInfo("com.spotify.music", 0)
+            if (info != null) {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(spotifyUri)
+                intent.putExtra(
+                    Intent.EXTRA_REFERRER,
+                    "android-app://" + requireContext().packageName
+                ) // Optional: Sets the referrer to your app package name
+                startActivity(intent)
+            }
+        } catch (e: PackageManager.NameNotFoundException) {
+            val alert = SpotifyDialog()
+            alert.show(requireActivity().supportFragmentManager, "SpotifyDialog")
+        }
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        searchViewModel.selectedItem.observe(viewLifecycleOwner) {
+        searchViewModel.selectedItem?.let {
+            if (it.data is PodcastData) {
+                binding.detailsPodcastPublisher.visibility = View.VISIBLE
+                binding.detailsPodcastPublisher.text = "Publisher: ${it.data.publisher.name}"
+            }
             handleItemUI(it)
+        }
+        binding.detailsSpotifyButton.setOnClickListener {
+            val item = searchViewModel.selectedItem
+            if (item != null) {
+                when (item.data) {
+                    is ArtistData -> {
+                        openSpotify(item.data.uri)
+                    }
+                    is AlbumData -> {
+                        openSpotify(item.data.uri)
+                    }
+                    is PlaylistData -> {
+                        openSpotify(item.data.uri)
+                    }
+                    is PodcastData -> {
+                        openSpotify(item.data.uri)
+                    }
+                }
+            }
         }
         binding.detailsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         searchViewModel.searchArtistAlbumsLiveData.observe(viewLifecycleOwner) {
-            println(it.data.artist.discography.albums.items)
-            val adapter =
-                ArtistAlbumsAdapter(it.data.artist.discography.albums
-                    .items.map { album -> album.releases.items[0] })
-            binding.detailsRecyclerView.adapter = adapter
+            it?.let {
+                val adapter =
+                    ArtistAlbumsAdapter(it.data.artist.discography.albums
+                        .items.map { album -> album.releases.items[0] })
+                binding.detailsRecyclerView.adapter = adapter
+            }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        searchViewModel.clearSelectedItem()
+        searchViewModel.searchArtistAlbumsLiveData.value = null
     }
 
     private fun showArtistAlbums(artist: ArtistData) {

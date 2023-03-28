@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface SearchService {
     @Headers(
-        "X-RapidAPI-Key: 99a7fc0608mshb59fdd65c82e2e9p187226jsn7e143d48635c",
+        "X-RapidAPI-Key: 9a9d56c2f4msh53ee4d745194c32p1dc7f4jsn4e1f976bf1b2",
         "X-RapidAPI-Host: spotify23.p.rapidapi.com"
     )
     @GET("search/")

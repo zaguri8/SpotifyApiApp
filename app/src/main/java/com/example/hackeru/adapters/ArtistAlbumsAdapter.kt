@@ -20,7 +20,8 @@ class ArtistAlbumsAdapter(
         fun bind(item: Album) {
             binding.searchItemAlbumNameTv.text = item.name
             binding.searchItemAlbumDescTv.text = "Track count: ${item.tracks.totalCount}"
-            binding.searchItemAlbumReleaseDate.text = "${item.date.isoString}"
+            val date = item.date.isoString.split("T")[0].split("-").reversed().joinToString(".")
+            binding.searchItemAlbumReleaseDate.text = "Release date: $date"
 
             Picasso.get().load(item.coverArt.sources[0].url).into(binding.searchItemAlbumIv)
         }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.hackeru.R
 import com.example.hackeru.adapters.HomeCollectionAdapter
@@ -28,7 +29,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[SearchViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[SearchViewModel::class.java]
         return binding.root
     }
 
@@ -39,8 +40,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(viewModel.searchLiveData.value == null)
+            viewModel.search(getRandomLetter(), "multi")
 
-        viewModel.search(getRandomLetter(), "multi")
         viewModel.searchLiveData.observe(viewLifecycleOwner) { searchResults ->
 
             val albums = searchResults.albums?.items
@@ -56,30 +58,40 @@ class HomeFragment : Fragment() {
             binding.playlistsRv.addItemDecoration(dividerItemDecoration)
 
             albums?.let {
-                binding.albumsRv.adapter = HomeCollectionAdapter(it.toDataList()) {
-
+                binding.albumsRv.adapter = HomeCollectionAdapter(it.toDataList()) { data ->
+                    viewModel.selectItem(data)
+                    findNavController()
+                        .navigate(R.id.action_homeFragment_to_item_details_fragment)
                 }
             }
             artists?.let {
-                binding.artistsRv.adapter = HomeCollectionAdapter(it.toDataList()) {
-
+                binding.artistsRv.adapter = HomeCollectionAdapter(it.toDataList()) { data ->
+                    viewModel.selectItem(data)
+                    findNavController()
+                        .navigate(R.id.action_homeFragment_to_item_details_fragment)
                 }
             }
             tracks?.let {
-                binding.musicRv.adapter = HomeCollectionAdapter(it.toDataList()) {
-
+                binding.musicRv.adapter = HomeCollectionAdapter(it.toDataList()) { data ->
+                    viewModel.selectItem(data)
+                    findNavController()
+                        .navigate(R.id.action_homeFragment_to_item_details_fragment)
                 }
             }
 
             podcasts?.let {
-                binding.podcastRv.adapter = HomeCollectionAdapter(it.toDataList()) {
-
+                binding.podcastRv.adapter = HomeCollectionAdapter(it.toDataList()) { data ->
+                    viewModel.selectItem(data)
+                    findNavController()
+                        .navigate(R.id.action_homeFragment_to_item_details_fragment)
                 }
             }
 
             playlists?.let {
-                binding.playlistsRv.adapter = HomeCollectionAdapter(it.toDataList()) {
-
+                binding.playlistsRv.adapter = HomeCollectionAdapter(it.toDataList()) { data ->
+                    viewModel.selectItem(data)
+                    findNavController()
+                        .navigate(R.id.action_homeFragment_to_item_details_fragment)
                 }
             }
         }

@@ -19,13 +19,16 @@ class SearchViewModel : ViewModel() {
     private val repository: SearchRepository = SearchRepository(RetrofitClient.getArtistsService())
     val searchLiveData = MutableLiveData<SearchResponse>()
 
-    val searchArtistAlbumsLiveData = MutableLiveData<ApiArtistAlbumsResponse>()
+    val searchArtistAlbumsLiveData = MutableLiveData<ApiArtistAlbumsResponse?>()
 
-    private val _selectedItem = MutableLiveData<Data<Any>>()
-    val selectedItem: LiveData<Data<Any>> = _selectedItem
+    var selectedItem: Data<Any>? = null
 
     fun selectItem(data: Data<Any>) {
-        _selectedItem.postValue(data)
+        selectedItem = data
+    }
+
+    fun clearSelectedItem() {
+        selectedItem = null
     }
 
     fun search(name: String, category: String) {

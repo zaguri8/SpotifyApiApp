@@ -56,6 +56,32 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/details_spotify_button"
+                android:layout_marginHorizontal="128dp"
+                android:backgroundTint="#00D755"
+                android:background="@drawable/rounded_spotify"
+                android:text="Spotify" />
+
+            <TextView
+                android:id="@+id/details_podcast_publisher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/details_recycler_view"
             android:layout_width="match_parent"
